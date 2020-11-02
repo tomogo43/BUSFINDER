@@ -1,6 +1,6 @@
 # server
 
-> Server of the application (Backend)
+> Server Backend API REST
 
 ## About
 
