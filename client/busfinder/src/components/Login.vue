@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="login">
         <!-- Titre -->
         <h1><b-icon icon="arrow-bar-right"></b-icon> Se connecter</h1>
         <br />
