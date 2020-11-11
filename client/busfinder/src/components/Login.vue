@@ -10,17 +10,17 @@
         <input v-model="message" type="password" placeholder="Saisissez votre mot de passe ..." />
         <br /><br />
 
-        <b-button variant="outline-primary" size="lg">Connexion</b-button>
+        <b-button @click="$router.push('trajets')" variant="outline-primary" size="lg">Connexion</b-button>
   </div>
 </template>
 
 <script>
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
+  import 'bootstrap/dist/css/bootstrap.css'
+  import 'bootstrap-vue/dist/bootstrap-vue.css'
 
-export default {
-  name: 'Login'
-}
+  export default {
+    name: 'Login'
+  }
 </script>
 
 <style>
