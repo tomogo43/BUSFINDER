@@ -1,9 +1,13 @@
 <template>
+
+
+
     <List :data="gridData" :columns="gridColumns"></List>
 </template>
 
 <script>
-    import List from './List'
+    import List from './List';
+
 
     export default {
         name: 'Trajets',
