@@ -1,7 +1,7 @@
 <template>
   <v-data-table
     :headers="headers"
-    :items="chauffeurs"
+    :items="allChauffeur"
     sort-by="prenom"
     class="elevation-1"
   >
@@ -120,18 +120,12 @@
         mdi-delete
       </v-icon>
     </template>
-    <template v-slot:no-data>
-      <v-btn
-        color="primary"
-        @click="initialize"
-      >
-        Reset
-      </v-btn>
-    </template>
   </v-data-table>
 </template>
 
 <script>
+  import app from '@/feathers-client'
+
   export default {
     data: () => ({
       dialog: false,
@@ -142,7 +136,6 @@
         { text: 'Adresse mail', value: 'email' },
 
       ],
-      chauffeurs: [],
       editedIndex: -1,
       editedItem: {
         prenom: '',
@@ -160,6 +153,14 @@
       formTitle () {
         return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
       },
+      allChauffeur() {
+        let c = this.$store.state.allChauffeurs
+        if (c === undefined) {
+            this.$store.dispatch('FETCH_TRAJETS')
+            return []
+        }
+        return Object.values(c)
+      }
     },
 
     watch: {
@@ -171,20 +172,10 @@
       },
     },
 
-    created () {
-      this.initialize()
+    mounted() {
+      this.$store.dispatch('FETCH_CHAUFFEURS');
     },
-
     methods: {
-      initialize () {
-        this.chauffeurs = [
-          {
-              prenom: 'Samir',
-              nom:    'Fakorede',
-              email:  'la-poutre@ver.vaudou',
-          },
-        ]
-      },
 
       editItem (item) {
         this.editedIndex = this.chauffeurs.indexOf(item)
@@ -220,11 +211,8 @@
       },
 
       save () {
-        if (this.editedIndex > -1) {
-          Object.assign(this.chauffeurs[this.editedIndex], this.editedItem)
-        } else {
-          this.chauffeurs.push(this.editedItem)
-        }
+        app.service('chauffeurs').create(this.editedItem);
+        this.$store.dispatch('FETCH_CHAUFFEURS')
         this.close()
       },
     },
