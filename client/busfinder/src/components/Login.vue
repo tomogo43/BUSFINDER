@@ -33,7 +33,7 @@
       <v-btn
         color="success"
         class="mr-4"
-        @click="$router.push('hello')"
+        @click="$router.push('admin')"
       >
         Connexion
       </v-btn>

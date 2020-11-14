@@ -8,6 +8,7 @@ import Trajets2 from './components/Trajets2.vue'
 import Admin from './components/Admin.vue'
 import ListeChauffeurs from './components/ListeChauffeurs.vue'
 import ListeLignes from './components/ListeLignes.vue'
+import ListeTrajets from './components/ListeTrajets.vue'
 
 Vue.use(Router)
 
@@ -47,6 +48,11 @@ export default new Router({
          path: '/lignes',
          name: 'Liste des Lignes',
          component: ListeLignes
+      },
+      {
+         path: '/trajets',
+         name: 'Liste des Trajets',
+         component: ListeTrajets
       }
    ]
 })
