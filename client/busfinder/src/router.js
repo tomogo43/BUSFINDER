@@ -35,6 +35,11 @@ export default new Router({
          path: '/admin',
          name: 'admin',
          component: Admin
-      }
+      },
+      {
+         path: '/chauffeurs',
+         name: 'Liste des Chauffeurs',
+         component: ListeChauffeurs
+      },
    ]
 })
