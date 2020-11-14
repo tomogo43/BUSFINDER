@@ -1,32 +1,55 @@
 <template>
-  <div class="login">
-        <!-- Titre -->
-        <h1><b-icon icon="arrow-bar-right"></b-icon> Se connecter</h1>
-        <br />
+  <v-form
+    ref="form"
+    v-model="valid"
+    lazy-validation
+  >
+    <v-text-field
+      v-model="identifiant"
+      :rules="nameRules"
+      label="Saisissez votre identifiant ..."
+      required
+    ></v-text-field>
 
-        <!-- Champs de saisie -->
-        <input v-model="message" placeholder="Saisissez votre identifiant ..." />
-        <br /><br />
-        <input v-model="message" type="password" placeholder="Saisissez votre mot de passe ..." />
-        <br /><br />
+    <v-text-field
+      v-model="password"
+      :type="'password'"
+      label="Saississez votre mot de passe ..."
+      required
+    ></v-text-field>
 
-        <b-button @click="$router.push('trajets')" variant="outline-primary" size="lg">Connexion</b-button>
-  </div>
+    <v-btn
+      color="success"
+      class="mr-4"
+      @click="validate"
+    >
+      Connexion
+    </v-btn>
+
+    <v-btn
+      color="error"
+      class="mr-4"
+      @click="reset"
+    >
+      Annuler
+    </v-btn>
+  </v-form>
 </template>
 
 <script>
   import 'bootstrap/dist/css/bootstrap.css'
   import 'bootstrap-vue/dist/bootstrap-vue.css'
 
+  
   export default {
-    name: 'Login'
+    methods: {
+      validate () {
+        this.$refs.form.validate()
+      },
+      reset () {
+        this.$refs.form.reset()
+      }
+    }
   }
+
 </script>
-
-<style>
-
-input {
-    width: 25%;
-}
-
-</style>

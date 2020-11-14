@@ -1,7 +1,4 @@
 <template>
-
-
-
     <List :data="gridData" :columns="gridColumns"></List>
 </template>
 

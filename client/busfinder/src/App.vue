@@ -2,27 +2,20 @@
   <v-app>
     <v-app-bar
       app
-      color="primary"
+      color="#9A06F0"
       dark
     >
       <div class="d-flex align-center">
         <v-img
-          alt="Vuetify Logo"
+          alt="Mini Logo"
           class="shrink mr-2"
           contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
+          src="../images/mini-logo.png"
           transition="scale-transition"
-          width="40"
+          width="25"
         />
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
+        <h2>Bus Finder</h2>
       </div>
 
       <v-spacer></v-spacer>
@@ -32,7 +25,7 @@
         target="_blank"
         text
       >
-        <span class="mr-2">Latest Release</span>
+        <span class="mr-2">Connexion</span>
         <v-icon>mdi-open-in-new</v-icon>
       </v-btn>
     </v-app-bar>

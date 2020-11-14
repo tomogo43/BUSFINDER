@@ -40,9 +40,6 @@
             mdi-format-list-bulleted-square
         </v-icon>
     </v-btn>
-         
-
-
     </div>
 </template>
 <script>
