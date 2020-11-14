@@ -3,6 +3,8 @@
         <h1>test API</h1>
         <br/>
 
+
+
         <v-card
             class="mx-auto"
             max-width="80%"
@@ -14,7 +16,7 @@
             <v-list-item-group
                 color="primary"
             >
-                <v-list-item v-for="(trajet,idt) in getTrajets" :key="idt">
+                <v-list-item v-for="(trajet,idt) in allTraj" :key="idt">
                     <v-list-item-icon>
                         <v-avatar
                             color="indigo"
@@ -29,33 +31,36 @@
                 </v-list-item>
             </v-list-item-group>
         </v-card>
-        <v-btn id ="btn-refresh"
-            class="mx-2"
-            fab
-            dark
-            color="teal"
-            @click="coucou"
-        >
+
         <v-icon dark>
             mdi-format-list-bulleted-square
         </v-icon>
-    </v-btn>
+
     </div>
 </template>
 <script>
-import { mapGetters } from 'vuex';
 
 export default {
     
 
     mounted() {
-        this.$store.dispatch("setCurrentTrajet");
+        this.$store.dispatch('FETCH_TRAJETS')
+
     },
     computed: {
-        ...mapGetters(["getTrajets"]),
+        // ...mapGetters(["getTrajets"]),
+        allTraj () {
+            let t = this.$store.state.allTrajets
+            if (t === undefined) {
+                this.$store.dispatch('FETCH_TRAJETS')
+                return []
+            }
+            return Object.values(t)
+        }
         
     },
     methods: {
+        
         coucou() {
             this.$store.dispatch("setCurrentTrajet");
         }
