@@ -7,6 +7,7 @@ import Trajets from './components/Trajets.vue'
 import Trajets2 from './components/Trajets2.vue'
 import Admin from './components/Admin.vue'
 import ListeChauffeurs from './components/ListeChauffeurs.vue'
+import ListeLignes from './components/ListeLignes.vue'
 
 Vue.use(Router)
 
@@ -42,5 +43,10 @@ export default new Router({
          name: 'Liste des Chauffeurs',
          component: ListeChauffeurs
       },
+      {
+         path: '/lignes',
+         name: 'Liste des Lignes',
+         component: ListeLignes
+      }
    ]
 })
