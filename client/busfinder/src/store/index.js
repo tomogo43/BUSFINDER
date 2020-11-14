@@ -11,7 +11,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     // currentTrajet: {},
-    allTrajets: []
+    allTrajets: [],
+    allChauffeurs: []
   },
   // mutations: {
   //   // synchrone
@@ -35,6 +36,9 @@ export default new Vuex.Store({
   mutations: {
     CREATE_TRAJET: function(state, trajet) {
       state.allTrajets.push(trajet)
+    },
+    CREATE_CHAUFFEUR: function(state, chauffeur) {
+      state.allChauffeurs.push(chauffeur)
     }
   },
   actions: {
@@ -43,6 +47,14 @@ export default new Vuex.Store({
       this.state.allTrajets = []
       trajet.data.forEach(t => {
         commit('CREATE_TRAJET', t)
+      })
+    },
+    FETCH_CHAUFFEURS: async function({ commit }) {
+      let chauffeur = await app.service('chauffeurs').find();
+      this.state.allChauffeurs = [];
+      
+      chauffeur.data.forEach(c => {
+        commit('CREATE_CHAUFFEUR', c)
       })
     }
   },
