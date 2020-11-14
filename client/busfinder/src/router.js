@@ -6,6 +6,7 @@ import HelloWorld from './components/HelloWorld.vue'
 import Trajets from './components/Trajets.vue'
 import Trajets2 from './components/Trajets2.vue'
 import Admin from './components/Admin.vue'
+import ListeChauffeurs from './components/ListeChauffeurs.vue'
 
 Vue.use(Router)
 
