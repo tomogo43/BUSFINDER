@@ -5,6 +5,7 @@ import Login from './components/Login.vue'
 import HelloWorld from './components/HelloWorld.vue'
 import Trajets from './components/Trajets.vue'
 import Trajets2 from './components/Trajets2.vue'
+import Admin from './components/Admin.vue'
 
 Vue.use(Router)
 
@@ -29,6 +30,11 @@ export default new Router({
          path: '/hello',
          name: 'hello',
          component: HelloWorld
+      },
+      {
+         path: '/admin',
+         name: 'admin',
+         component: Admin
       }
    ]
 })
