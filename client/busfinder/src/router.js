@@ -3,11 +3,11 @@ import Router from 'vue-router'
 // Components
 import Login from './components/Login.vue'
 import HelloWorld from './components/HelloWorld.vue'
-import Trajets2 from './components/Trajets2.vue'
 import Admin from './components/Admin.vue'
 import ListeChauffeurs from './components/ListeChauffeurs.vue'
 import ListeLignes from './components/ListeLignes.vue'
 import ListeTrajets from './components/ListeTrajets.vue'
+import Home from './components/Home.vue'
 
 Vue.use(Router)
 
@@ -19,9 +19,9 @@ export default new Router({
          component: Login
       },
       {
-         path: '/trajets2',
-         name: 'trajets2',
-         component: Trajets2
+         path: '/home',
+         name: 'home',
+         component: Home
       },
       {
          path: '/hello',

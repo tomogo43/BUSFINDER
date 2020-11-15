@@ -53,7 +53,7 @@
     <v-btn
       x-large
       color="success"
-      dark
+      @click="$router.push('home')"
     >
       Accès Utilisateur
     </v-btn>
