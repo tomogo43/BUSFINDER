@@ -13,6 +13,13 @@ Proposer une application web permettant de gérer un réseau de bus en manipulan
   - Les admin: peuvent ajouter/eduter/supprimer les chauffeurs, les lignes et les trajets
   - Les utilisateurs peuvent seulement consulter les trajets disponibles
   
+  - Accès administrateur: Login: admin
+                          Password: admin
+
+## Vidéo de démonstration
+Voici le lien de la vidéo démo de l'application :
+http://tescudero.fr/videos/busfinder-demo.mp4 
+
 ## Les difficultés rencontrées
   Nous avons eu des difficultés à intéragir avec l'API...Lors de l'ajout de feathers/client et de socketio la version de socketio était trop récente par rapport à celle de feathers/cli. Nous avons également dû nous familiariser avec vuex pour la création d'un datastore centralisée ce qui permet de créer une application très réactive de plus que c'est une SPA grâce au routeur.
   Cependant ce projet nous a permis de nous familiariser sur le développement d'applications web etd'utiliser d'autres technologies web que l'on a appris en DUT (HTML/CSS/PHP et BDD MySQL sur un serveur LAMP)
