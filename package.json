@@ -1,0 +1,19 @@
+{
+  "name": "busfinder",
+  "version": "1.0.0",
+  "description": "Projet Application Web:Gestion des lignes de bus d'une ville",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tomogo43/BUSFINDER.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tomogo43/BUSFINDER/issues"
+  },
+  "homepage": "https://github.com/tomogo43/BUSFINDER#readme"
+}
