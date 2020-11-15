@@ -1,7 +1,7 @@
 <template>
   <v-data-table
     :headers="headers"
-    :items="desserts"
+    :items="allTrajets"
     sort-by="calories"
     class="elevation-1"
   >
@@ -9,7 +9,7 @@
       <v-toolbar
         flat
       >
-        <v-toolbar-title>My CRUD</v-toolbar-title>
+        <v-toolbar-title>Les trajets</v-toolbar-title>
         <v-divider
           class="mx-4"
           inset
@@ -18,7 +18,7 @@
         <v-spacer></v-spacer>
         <v-dialog
           v-model="dialog"
-          max-width="500px"
+          max-width="1500px"
         >
           <template v-slot:activator="{ on, attrs }">
             <v-btn
@@ -28,7 +28,7 @@
               v-bind="attrs"
               v-on="on"
             >
-              New Item
+              Ajouter un nouveau trajet
             </v-btn>
           </template>
           <v-card>
@@ -41,53 +41,69 @@
                 <v-row>
                   <v-col
                     cols="12"
-                    sm="6"
+                    sm="4"
                     md="4"
                   >
-                    <v-text-field
-                      v-model="editedItem.name"
-                      label="Dessert name"
-                    ></v-text-field>
+                    <v-select
+                    :items="allLignes"
+                    v-model = "editedItem.ligne"
+                    label="Les lignes"
+                    outlined
+                  ></v-select>
                   </v-col>
                   <v-col
                     cols="12"
-                    sm="6"
+                    sm="4"
                     md="4"
                   >
-                    <v-text-field
-                      v-model="editedItem.calories"
-                      label="Calories"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col
+                  <!-- Heure de départ -->
+                    <v-menu
+                      ref="menu"
+                      v-model="menu"
+                      :close-on-content-click="false"
+                      :nudge-right="40"
+                      :return-value.sync="h_depart"
+                      transition="scale-transition"
+                      offset-y
+                      max-width="290px"
+                      min-width="290px"
+                    >
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-text-field
+                          v-model="h_depart"
+                          label="Heure de départ"
+                          prepend-icon="mdi-clock-time-four-outline"
+                          readonly
+                          v-bind="attrs"
+                          v-on="on"
+                        ></v-text-field>
+                      </template>
+                      <v-time-picker
+                        v-if="menu"
+                        v-model="h_depart"
+                        format="24hr"
+                        full-width
+                        @click:minute="$refs.menu.save(h_depart)"
+                      ></v-time-picker>
+                    </v-menu>
+                    </v-col>
+                <v-col
                     cols="12"
-                    sm="6"
+                    sm="4"
                     md="4"
                   >
-                    <v-text-field
-                      v-model="editedItem.fat"
-                      label="Fat (g)"
-                    ></v-text-field>
+                  <v-select
+                    :items="allChauffeurs"
+                    v-model="editedItem.chauffeur"
+                    label="Les chauffeurs"
+                    outlined
+                  ></v-select>  
                   </v-col>
+                  <v-spacer></v-spacer>
                   <v-col
-                    cols="12"
-                    sm="6"
-                    md="4"
+                    cols="11"
+                    sm="5"
                   >
-                    <v-text-field
-                      v-model="editedItem.carbs"
-                      label="Carbs (g)"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    sm="6"
-                    md="4"
-                  >
-                    <v-text-field
-                      v-model="editedItem.protein"
-                      label="Protein (g)"
-                    ></v-text-field>
                   </v-col>
                 </v-row>
               </v-container>
@@ -140,57 +156,79 @@
         mdi-delete
       </v-icon>
     </template>
-    <template v-slot:no-data>
-      <v-btn
-        color="primary"
-        @click="initialize"
-      >
-        Reset
-      </v-btn>
-    </template>
   </v-data-table>
 </template>
 
 <script>
+
+  import app from '@/feathers-client'
+
   export default {
     data: () => ({
+      h_depart: null,
+      menu: false,
+      modal2: false,
       dialog: false,
       dialogDelete: false,
+      duree: 0,
+      items: [],
       headers: [
-        {
-          text: 'Dessert (100g serving)',
-          align: 'start',
-          sortable: false,
-          value: 'name',
-        },
-        { text: 'Calories', value: 'calories' },
-        { text: 'Fat (g)', value: 'fat' },
-        { text: 'Carbs (g)', value: 'carbs' },
-        { text: 'Protein (g)', value: 'protein' },
+        { text: 'Ligne', value: 'ligne' },
+        { text: 'Chauffeur', value: 'chauffeur' },
+        { text: 'Heure de départ', value: 'h_depart' },
+        { text: 'Heure d\'arrivée', value: 'h_arrivée' },
         { text: 'Actions', value: 'actions', sortable: false },
       ],
       desserts: [],
       editedIndex: -1,
       editedItem: {
-        name: '',
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
+        ligne: '',
+        chauffeur: '',
+        heure: null,
       },
       defaultItem: {
-        name: '',
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
+        ligne: '',
+        chauffeur: '',
+        heure: null,
       },
     }),
+    mounted() {
+      this.$store.dispatch("FETCH_LIGNES"),
+      this.$store.dispatch("FETCH_CHAUFFEURS"),
+      this.$store.dispatch("FETCH_TRAJETS")
+    },
 
     computed: {
       formTitle () {
-        return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+        return this.editedIndex === -1 ? 'Ajouter un trajet' : 'Edit Item'
       },
+
+      allLignes () {
+        let lignes = this.$store.state.allLignes;
+        let arrayLigne = [];
+        lignes.forEach(l => {
+          let description = "";
+          description = l.numero + " De " + l.depart + "  à "+ l.destination;
+          arrayLigne.push(description)
+        })
+        return arrayLigne;
+      },
+
+      allChauffeurs () {
+        let chauffeurs = this.$store.state.allChauffeurs;
+        let arrayChauffeur = [];
+        chauffeurs.forEach(c => {
+          let description = c.nom + " " + c.prenom;
+          arrayChauffeur.push(description);
+        })
+        return arrayChauffeur;
+      },
+
+      allTrajets () {
+        let trajets = this.$store.state.allTrajets;
+        return Object.values(trajets);
+
+      }
     },
 
     watch: {
@@ -202,85 +240,8 @@
       },
     },
 
-    created () {
-      this.initialize()
-    },
-
     methods: {
-      initialize () {
-        this.desserts = [
-          {
-            name: 'Frozen Yogurt',
-            calories: 159,
-            fat: 6.0,
-            carbs: 24,
-            protein: 4.0,
-          },
-          {
-            name: 'Ice cream sandwich',
-            calories: 237,
-            fat: 9.0,
-            carbs: 37,
-            protein: 4.3,
-          },
-          {
-            name: 'Eclair',
-            calories: 262,
-            fat: 16.0,
-            carbs: 23,
-            protein: 6.0,
-          },
-          {
-            name: 'Cupcake',
-            calories: 305,
-            fat: 3.7,
-            carbs: 67,
-            protein: 4.3,
-          },
-          {
-            name: 'Gingerbread',
-            calories: 356,
-            fat: 16.0,
-            carbs: 49,
-            protein: 3.9,
-          },
-          {
-            name: 'Jelly bean',
-            calories: 375,
-            fat: 0.0,
-            carbs: 94,
-            protein: 0.0,
-          },
-          {
-            name: 'Lollipop',
-            calories: 392,
-            fat: 0.2,
-            carbs: 98,
-            protein: 0,
-          },
-          {
-            name: 'Honeycomb',
-            calories: 408,
-            fat: 3.2,
-            carbs: 87,
-            protein: 6.5,
-          },
-          {
-            name: 'Donut',
-            calories: 452,
-            fat: 25.0,
-            carbs: 51,
-            protein: 4.9,
-          },
-          {
-            name: 'KitKat',
-            calories: 518,
-            fat: 26.0,
-            carbs: 65,
-            protein: 7,
-          },
-        ]
-      },
+      
 
       editItem (item) {
         this.editedIndex = this.desserts.indexOf(item)
@@ -316,12 +277,27 @@
       },
 
       save () {
-        if (this.editedIndex > -1) {
-          Object.assign(this.desserts[this.editedIndex], this.editedItem)
-        } else {
-          this.desserts.push(this.editedItem)
+        let [hour, minute] = String(this.h_depart).split(':');
+        let duree = 0;
+        // ajout de la durée au trajet
+        this.$store.state.allLignes.forEach(l => {
+          let numero = this.editedItem.ligne.split(' ');
+          if (numero[0] === l.numero) {
+            duree = l.duree;
+          }
+        })
+        let h_arrivée = (Number(hour) + Number(duree)) + ":" + minute;
+        let arrayTrajet = {
+          "ligne" : this.editedItem.ligne,
+          "chauffeur" : this.editedItem.chauffeur,
+          "h_depart" : this.h_depart,
+          "h_arrivée" : h_arrivée
         }
-        this.close()
+
+        app.service('trajets').create(arrayTrajet);
+        this.$store.dispatch('FETCH_TRAJETS')
+
+        this.close()    
       },
     },
   }
