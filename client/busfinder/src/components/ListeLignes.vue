@@ -1,7 +1,7 @@
 <template>
   <v-data-table
     :headers="headers"
-    :items="lignes"
+    :items="allLigne"
     sort-by="numero"
     class="elevation-1"
   >
@@ -130,18 +130,13 @@
         mdi-delete
       </v-icon>
     </template>
-    <template v-slot:no-data>
-      <v-btn
-        color="primary"
-        @click="initialize"
-      >
-        Reset
-      </v-btn>
-    </template>
   </v-data-table>
 </template>
 
 <script>
+
+  import app from '@/feathers-client'
+
   export default {
     data: () => ({
       dialog: false,
@@ -152,7 +147,6 @@
         { text: "Ville d'arrivée", value: 'destination' },
         { text: 'Temps de trajet (en h)', value: 'duree' },
       ],
-      lignes: [],
       editedIndex: -1,
       editedItem: {
         numero: '',
@@ -168,10 +162,19 @@
       },
     }),
 
+    mounted () {
+      this.$store.dispatch('FETCH_LIGNES');
+    },
+
     computed: {
       formTitle () {
         return this.editedIndex === -1 ? 'Nouvelle Ligne' : 'Modifier cette Ligne'
       },
+      
+      allLigne() {
+        let l = this.$store.state.allLignes
+        return Object.values(l)
+      }
     },
 
     watch: {
@@ -183,27 +186,7 @@
       },
     },
 
-    created () {
-      this.initialize()
-    },
-
     methods: {
-      initialize () {
-        this.lignes = [
-          {
-            numero: 'A',
-            depart: 'Toulouse',
-            destination: 'Rodez',
-            duree: 2
-          },
-          {
-            numero: 'B',
-            depart: 'Rodez',
-            destination: 'Mende',
-            duree: 1.5
-          }
-        ]
-      },
       editItem (item) {
         this.editedIndex = this.lignes.indexOf(item)
         this.editedItem = Object.assign({}, item)
@@ -238,11 +221,8 @@
       },
 
       save () {
-        if (this.editedIndex > -1) {
-          Object.assign(this.lignes[this.editedIndex], this.editedItem)
-        } else {
-          this.lignes.push(this.editedItem)
-        }
+        app.service('lignes').create(this.editedItem);
+        this.$store.dispatch('FETCH_LIGNES')
         this.close()
       },
     },

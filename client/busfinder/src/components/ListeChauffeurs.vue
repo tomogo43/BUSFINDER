@@ -155,10 +155,6 @@
       },
       allChauffeur() {
         let c = this.$store.state.allChauffeurs
-        if (c === undefined) {
-            this.$store.dispatch('FETCH_TRAJETS')
-            return []
-        }
         return Object.values(c)
       }
     },
