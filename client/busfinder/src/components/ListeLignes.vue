@@ -201,7 +201,8 @@
       },
 
       deleteItemConfirm () {
-        this.allLigne.splice(this.editedIndex, 1)
+        app.service('lignes').remove(this.editedItem._id);
+        this.$store.dispatch('FETCH_LIGNES')
         this.closeDelete()
       },
 

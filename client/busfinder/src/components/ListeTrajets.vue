@@ -256,7 +256,8 @@
       },
 
       deleteItemConfirm () {
-        this.desserts.splice(this.editedIndex, 1)
+        app.service('trajets').remove(this.editedItem._id);
+        this.$store.dispatch('FETCH_TRAJETS')
         this.closeDelete()
       },
 
