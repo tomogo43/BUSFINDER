@@ -5,35 +5,20 @@ import app from '../feathers-client';
 
 Vue.use(Vuex)
 
-// const url = "http://localhost:3030/lignes";
-// const headers = { Accept: "application/json" };
 
 export default new Vuex.Store({
   state: {
+<<<<<<< HEAD
     // currentTrajet: {},
     allTrajets: {},
     allChauffeurs: {},
     allLignes: {}
+=======
+    allTrajets: [],
+    allChauffeurs: [],
+    allLignes: []
+>>>>>>> dev
   },
-  // mutations: {
-  //   // synchrone
-  //   setTrajet(state, payload) {
-  //     state.allTrajets = payload;
-  //   }
-  // },
-  // actions: {
-  //   // asynchrone
-  //   async setCurrentTrajet(state) {
-  //     const trajet = await fetch(url, { headers});
-  //     console.log(trajet);
-  //     const t = await trajet.json();
-  //     // state.allTrajets = [];
-  //     // t.data.forEach(trajet => {
-  //     state.commit("setTrajet", t.data)
-  //     // })
-
-  //   }
-  // },
   mutations: {
     CREATE_TRAJET: function(state, trajet) {
       Vue.set(state.allTrajets, trajet.id, trajet)
