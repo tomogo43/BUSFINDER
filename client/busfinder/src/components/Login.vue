@@ -12,12 +12,10 @@
     <br />
     <v-form
       ref="form"
-      v-model="valid"
       lazy-validation
     >
       <v-text-field
-        v-model="identifiant"
-        :rules="nameRules"
+        v-model="login"
         label="Saisissez votre identifiant ..."
         required
         width="75"
@@ -33,7 +31,7 @@
       <v-btn
         color="success"
         class="mr-4"
-        @click="$router.push('admin')"
+        @click="checkEntry"
       >
         Connexion
       </v-btn>
@@ -58,6 +56,23 @@
       Accès Utilisateur
     </v-btn>
 
+    <v-snackbar
+      v-model="snackbar"
+    >
+      Login ou mot de passe incorrect
+
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          color="red"
+          text
+          v-bind="attrs"
+          @click="snackbar = false"
+        >
+          Fermer
+        </v-btn>
+      </template>
+    </v-snackbar>
+
   </v-container>
   
 </template>
@@ -65,15 +80,35 @@
 <script>
   import 'bootstrap/dist/css/bootstrap.css'
   import 'bootstrap-vue/dist/bootstrap-vue.css'
+  import CryptoJS from 'crypto-js'
+
 
   
   export default {
+    data: () => ({
+      login: '',
+      password: '',
+      snackbar: false
+    }),
     methods: {
       validate () {
         this.$refs.form.validate()
       },
       reset () {
         this.$refs.form.reset()
+      },
+
+
+
+      checkEntry () {
+        
+        if (this.login === 'admin' && this.password === CryptoJS.AES.decrypt('U2FsdGVkX19xs5uqY4XG9eVvTTn2lblItxLM/suwQkw=', "Secret Passphrase").toString(CryptoJS.enc.Utf8)) {
+          this.snackbar = false;
+          this.$router.push('admin')
+        } else {
+          this.snackbar = true;
+        }
+        
       }
     }
   }
