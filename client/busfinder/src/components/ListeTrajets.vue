@@ -287,7 +287,12 @@
             duree = l.duree;
           }
         })
-        let h_arrivée = (Number(hour) + Number(duree)) + ":" + minute;
+        let h_arrivée = 0
+        if ((Number(hour) + Number(duree)) > 24) {
+          h_arrivée = ((Number(hour) + Number(duree)) -24) + ":" + minute;
+        } else {
+          h_arrivée = (Number(hour) + Number(duree)) + ":" + minute;
+        }
         let arrayTrajet = {
           "ligne" : this.editedItem.ligne,
           "chauffeur" : this.editedItem.chauffeur,
@@ -296,7 +301,9 @@
           "_id" : this.editedItem._id
         }
 
-        app.service('trajets').remove(arrayTrajet._id);
+        if (this.editedIndex !== -1) {
+          app.service('trajets').remove(arrayTrajet._id);
+        }
         app.service('trajets').create(arrayTrajet);
         this.$store.dispatch('FETCH_TRAJETS')
 
