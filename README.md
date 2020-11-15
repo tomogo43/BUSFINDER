@@ -1,8 +1,8 @@
 # BUSFINDER
-Projet Application Web:Gestion des lignes de bus 
+Projet Application Web: Gestion des lignes de bus 
 
 ## Objectif: 
-Proposer une application werb permettant de gérer un réseau de bus en manipulant des données en temps réél avec une API.
+Proposer une application web permettant de gérer un réseau de bus en manipulant des données en temps réél avec une API.
 
 ## Fonctionalités:
   - Ajout de différentes lignes de bus (numéro; depart; destination; duree)
