@@ -22,7 +22,6 @@
 
       <v-btn
         href="/"
-        target="_blank"
         text
       >
         <span class="mr-2">Connexion</span>

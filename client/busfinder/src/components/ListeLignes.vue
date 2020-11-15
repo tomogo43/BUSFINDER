@@ -22,7 +22,7 @@
         >
           <template v-slot:activator="{ on, attrs }">
             <v-btn
-              color="primary"
+              color="#5DE63C"
               dark
               class="mb-2"
               v-bind="attrs"
@@ -233,3 +233,9 @@
     },
   }
 </script>
+
+<style>
+  th {
+    background-color: rgba(154, 6, 240, 0.5);
+  }
+</style>
