@@ -8,16 +8,10 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-<<<<<<< HEAD
     // currentTrajet: {},
     allTrajets: {},
     allChauffeurs: {},
     allLignes: {}
-=======
-    allTrajets: [],
-    allChauffeurs: [],
-    allLignes: []
->>>>>>> dev
   },
   mutations: {
     CREATE_TRAJET: function(state, trajet) {
