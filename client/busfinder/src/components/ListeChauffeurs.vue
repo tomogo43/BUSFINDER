@@ -187,7 +187,7 @@
       },
 
       deleteItemConfirm () {
-        app.service('chauffeurs').remove(this.editedIndex);
+        app.service('chauffeurs').remove(this.editedItem);
         this.$store.dispatch('FETCH_CHAUFFEURS')
         this.closeDelete()
       },
