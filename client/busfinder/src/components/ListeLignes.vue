@@ -146,6 +146,7 @@
         { text: 'Ville de départ', value: 'depart' },
         { text: "Ville d'arrivée", value: 'destination' },
         { text: 'Temps de trajet (en h)', value: 'duree' },
+        { text: 'Actions', value: 'actions', sortable: false }
       ],
       editedIndex: -1,
       editedItem: {
@@ -188,19 +189,19 @@
 
     methods: {
       editItem (item) {
-        this.editedIndex = this.lignes.indexOf(item)
+        this.editedIndex = this.allLigne.indexOf(item)
         this.editedItem = Object.assign({}, item)
         this.dialog = true
       },
 
       deleteItem (item) {
-        this.editedIndex = this.lignes.indexOf(item)
+        this.editedIndex = this.allLigne.indexOf(item)
         this.editedItem = Object.assign({}, item)
         this.dialogDelete = true
       },
 
       deleteItemConfirm () {
-        this.lignes.splice(this.editedIndex, 1)
+        this.allLigne.splice(this.editedIndex, 1)
         this.closeDelete()
       },
 
