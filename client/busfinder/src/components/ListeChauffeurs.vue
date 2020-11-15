@@ -87,7 +87,7 @@
                 text
                 @click="save"
               >
-                Ajouter
+                Valider
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -209,6 +209,9 @@
       },
 
       save () {
+        if (this.editedIndex !== -1) {
+          app.service('chauffeurs').remove(this.editedItem._id);
+        }
         app.service('chauffeurs').create(this.editedItem);
         this.$store.dispatch('FETCH_CHAUFFEURS')
         this.close()

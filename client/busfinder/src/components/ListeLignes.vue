@@ -97,7 +97,7 @@
                 text
                 @click="save"
               >
-                Ajouter
+                Valider
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -169,7 +169,7 @@
 
     computed: {
       formTitle () {
-        return this.editedIndex === -1 ? 'Nouvelle Ligne' : 'Modifier cette Ligne'
+        return this.editedIndex === -1 ? 'Nouvelle Ligne' : 'Modifier une Ligne'
       },
       
       allLigne() {
@@ -223,6 +223,9 @@
       },
 
       save () {
+        if (this.editedIndex !== -1) {
+          app.service('lignes').remove(this.editedItem._id);
+        }
         app.service('lignes').create(this.editedItem);
         this.$store.dispatch('FETCH_LIGNES')
         this.close()

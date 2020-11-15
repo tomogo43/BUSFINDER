@@ -116,25 +116,25 @@
                 text
                 @click="close"
               >
-                Cancel
+                Annuler
               </v-btn>
               <v-btn
                 color="blue darken-1"
                 text
                 @click="save"
               >
-                Save
+                Valider
               </v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
         <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>
-            <v-card-title class="headline">Are you sure you want to delete this item?</v-card-title>
+            <v-card-title class="headline">Etes-vous sur de vouloir supprimer ce trajet ?</v-card-title>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
-              <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
+              <v-btn color="blue darken-1" text @click="closeDelete">Annuler</v-btn>
+              <v-btn color="blue darken-1" text @click="deleteItemConfirm">Oui</v-btn>
               <v-spacer></v-spacer>
             </v-card-actions>
           </v-card>
@@ -200,7 +200,7 @@
 
     computed: {
       formTitle () {
-        return this.editedIndex === -1 ? 'Ajouter un trajet' : 'Edit Item'
+        return this.editedIndex === -1 ? 'Nouveau trajet' : 'Modifier un trajet'
       },
 
       allLignes () {
@@ -292,9 +292,11 @@
           "ligne" : this.editedItem.ligne,
           "chauffeur" : this.editedItem.chauffeur,
           "h_depart" : this.h_depart,
-          "h_arrivée" : h_arrivée
+          "h_arrivée" : h_arrivée,
+          "_id" : this.editedItem._id
         }
 
+        app.service('trajets').remove(arrayTrajet._id);
         app.service('trajets').create(arrayTrajet);
         this.$store.dispatch('FETCH_TRAJETS')
 
